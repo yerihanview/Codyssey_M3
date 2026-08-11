@@ -2,7 +2,7 @@
 # 성능 분석 (모드 3)
 # =========================================================
 
-import mac
+from mac import mac
 
 def measure_mac_time(n, repeat=10):
     """
