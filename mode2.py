@@ -79,7 +79,7 @@ def judge_label(score_cross, score_x, epsilon=EPSILON):
 
 def process_case(data, pattern_key, pattern_entry):
     """
-    pattern 하나를 입력 받아서, 
+    pattern 하나를 입력 받아서, 2가지 filter로 매핑한다.
     필터 매핑 --> 크기 검증 --> MAC 연산 --> 판정 --> expected 비교(PASS/FAIL)까지 처리한다.
     필터가 없거나 크기가 안 맞으면 pass=False와 실패 사유(reason)을 담아 반환한다.
     """
@@ -156,13 +156,12 @@ def run_mode2():
         data = json.load(f)
 
     # 읽어들인 패턴과 필터로 MAC연산하기
-    # items()는 딕셔너리에 저장된 모든 키(Key)와 값(Value)의 쌍을 튜플(Tuple) 형태로 묶어서 반환
     results = []
-    for pattern_key, pattern_entry in data["patterns"].items():
-        result = process_case(data, pattern_key, pattern_entry)
-        results.append(result)
+    for pattern_key, pattern_entry in data["patterns"].items(): # items()는 딕셔너리에 저장된 모든 Key와 Value 쌍을 튜플(Tuple) 형태로 한번에 묶어서 반환
+        result = process_case(data, pattern_key, pattern_entry) # 하나의 패턴에 대해 2개 필터를 매핑한 결과를 딕셔너리로 반환
+        results.append(result)  # 딕셔너리를 리스트에 저장
 
-    # 전체/PASS/FAIL 개수 집계 + 출력
+    # 전체/PASS/FAIL 개수 집계
     total = len(results)
     pass_count = sum(r["pass"] for r in results)
     fail_count = total - pass_count
@@ -171,8 +170,20 @@ def run_mode2():
     if fail_count > 0:
         print("실패 케이스")
         for r in results:
-            if not r["pass"]:
+            if not r["pass"]: # pass == False
                 # reason 필드가 채워져 있으면, reason을 출력
-                # reasons 필드가 없으면, predicted와 expected를 reason으로 출력
-                reason = r.get("reason", f"predicted={r.get('predicted')}, expected={r.get('expected')}")
-                print(f"  - {r['key']}: {reason}")
+                # reasons 필드가 없으면, predicted와 expected의 값을 reason으로 출력
+                # dictionary의 get(key, default) 메써드를 사용하여, key로 찾을 수 없을 때, default 반환값
+                ## reason = r.get("reason", f"predicted={r.get('predicted')}, expected={r.get('expected')}")
+                ## print(f"  - {r['key']}: {reason}")
+
+                # 쉽게 작성한 코드
+                reason = r.get("reason")
+                if reason is None:
+                    output = f"predicted={r.get('prediected')}, expected={r.get('expected')}"
+                else:
+                    output = reason
+                    
+                print(f"  - {r['key']}: {output}")
+
+
