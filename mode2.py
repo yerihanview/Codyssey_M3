@@ -2,6 +2,9 @@
 # JSON 로드 + 검증 + 배치 판정 (모드 2)
 # --------------------------------------------------
 
+import mac
+import json
+
 # 라벨 정규화 매핑: 데이터에 등장하는 다양한 표기 --> 표준 라벨
 LABEL_MAP = {
     "cross": "Cross",
@@ -48,14 +51,19 @@ def get_filter_set(data, filter_size):
     data에서 필터 사이즈가 일치하는 filter를 찾는다.
     """
 
-    key = f"size_{n}"
+    key = f"size_{filter_size}"
     filter_set = data["filters"].get(key) # get()을 사용하면, 키가 없어도 에러없이 None을 반환한다.
     return filter_set
 
 
-# Cross필터 점수와 X필터 점수를 비교해 Cross/X/UNDECIDED 중 하나를 반환합니다. 
-def judge_label(score_cross, score_x, epsilon=EPSILON):
+EPSILON = 1e-9
 
+def judge_label(score_cross, score_x, epsilon=EPSILON):
+    '''
+    Cross필터 점수와 X필터 점수를 비교해 Cross/X/UNDECIDED 중 하나를 반환합니다. 
+    '''
+
+    # 두 값의 차이
     diff = abs(score_cross - score_x)
 
     # epsilon 검사: 부동소수점 계산 과정의 미세한 차이라면, 판정불가 
@@ -68,36 +76,43 @@ def judge_label(score_cross, score_x, epsilon=EPSILON):
     else:
         return "X"
 
-# 패턴 처리 함수
-def process_case(dta, pattern_key, pattern_entry):
 
-    # 필터 사이즈 추출 + 필터 셋트 찾기
-    filter_size = get_size_from_key(pattern_key) # "size_5_1" --> 5
+def process_case(data, pattern_key, pattern_entry):
+    """
+    pattern 하나를 입력 받아서, 
+    필터 매핑 --> 크기 검증 --> MAC 연산 --> 판정 --> expected 비교(PASS/FAIL)까지 처리한다.
+    필터가 없거나 크기가 안 맞으면 pass=False와 실패 사유(reason)을 담아 반환한다.
+    """
+
+    # 필터 사이즈 추출("size_5_1" -> 5) + 필터 셋트 찾기
+    filter_size = get_size_from_key(pattern_key) 
     filter_set = get_filter_set(data, filter_size)
 
-    if filter_set in None:
+    if filter_set is None: 
         return {
             "key": pattern_key,
             "pass": False,
-            "reason": f"크기 {n}에 해당하는 필터를 찾을 수 없음"
+            "reason": f"크기 {filter_size}에 해당하는 필터를 찾을 수 없음"
         }
 
-    # 필터와 패턴 찾기
+    # Cross/X 필터 준비
     cross_filter = filter_set["cross"]
     x_filter = filter_set["x"]
-    pattern_input = pattern_entry["input"]
+
+    # 패턴 준비
+    pattern_data = pattern_entry["input"]
 
     # 필터와 패턴의 크기 일치 검증 (row)
-    if len(cross_filter) != len(pattern_input):
+    if len(cross_filter) != len(pattern_data):
         return {
             "key": pattern_key,
             "pass": False,
-            "reason": f"크기 불일치(행): 필터={len(cross_filter)}, 패턴={len(pattern_input)}"
+            "reason": f"크기 불일치(행): 필터={len(cross_filter)}, 패턴={len(pattern_data)}"
         }
 
     # 필터와 패턴의 크기 일치 검증 (column), 모든 row 검사
-    for row in pattern_input:
-        if len(row) != len(cross_filter):
+    for row in pattern_data:
+        if len(row) != len(cross_filter):  # column 개수 비교
             return {
                 "key": pattern_key,
                 "pass": False,
@@ -105,21 +120,23 @@ def process_case(dta, pattern_key, pattern_entry):
             }
 
     # Cross/X 필터 각각과 MAC 연산
-    score_cross = mac(pattern_input, cross_filter)
-    score_x = mac(pattern_input, x_filter)
+    score_cross = mac(pattern_data, cross_filter)
+    score_x = mac(pattern_data, x_filter)
     
 
-    # 두 점수 비교해서 판정 (Cross/X/UNDECIDED) + 라벨 정규화
-    prediected = judge_label(score_cross, score_x)
+    # 두 점수 비교해서 판정 (Cross/X/UNDECIDED)
+    predicted = judge_label(score_cross, score_x)
+
+    # expected 값의 정규화
     expected = normalize_label(pattern_entry(["expected"]))
 
     # PASS/FAIL 결정
-    is_pass = (predicted == pretented)
+    is_pass = (predicted == expected)
 
     # 결과 딕셔너리 반환
     return {
         "key": pattern_key,
-        "predicted": prediected,
+        "predicted": predicted,
         "expected": expected,
         "pass": is_pass,
         "score_cross": score_cross,
@@ -139,6 +156,7 @@ def run_mode2():
         data = json.load(f)
 
     # 읽어들인 패턴과 필터로 MAC연산하기
+    # items()는 딕셔너리에 저장된 모든 키(Key)와 값(Value)의 쌍을 튜플(Tuple) 형태로 묶어서 반환
     results = []
     for pattern_key, pattern_entry in data["patterns"].items():
         result = process_case(data, pattern_key, pattern_entry)
