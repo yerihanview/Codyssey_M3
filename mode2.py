@@ -180,7 +180,7 @@ def run_mode2():
                 # 쉽게 작성한 코드
                 reason = r.get("reason")
                 if reason is None:
-                    output = f"predicted={r.get('prediected')}, expected={r.get('expected')}"
+                    output = f"predicted={r.get('predicted')}, expected={r.get('expected')}"
                 else:
                     output = reason
                     
