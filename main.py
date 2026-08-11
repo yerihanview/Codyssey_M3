@@ -2,6 +2,10 @@
 # 메뉴 / 진입점
 # --------------------------------------------------
 
+from mode1 import run_mode1
+from mode2 import run_mode2
+from mode3 import run_performance_analysis
+
 def show_menu():
     """ 메뉴를 출력하고, 사용자가 고른 번호(문자열)을 반환한다."""
     print("\n#-----------------------")
@@ -25,7 +29,7 @@ def main():
         elif choice == "2":
             run_mode2()
         elif choice == "3":
-            run_performace_analysis()
+            run_performance_analysis()
         elif choice == "0":
             print("프로그램을 종료합니다.")
             break
