@@ -12,8 +12,8 @@ def read_grid(n):
             try:
                 row = [float(t) for t in tokens]
             except (ValueError):
-                print(f"{t}을 입력하셨어요. 숫자를 입력하세요.")
-                break
+                print("입력 형식 오류: 숫자를 입력하세요.")
+                continue
                 
             grid.append(row)
             break
