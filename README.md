@@ -18,27 +18,27 @@ python3 main.py
 3×3 필터 2개(A, B)와 3×3 패턴을 콘솔로 입력받아, 두 필터의 MAC 점수·연산 시간·
 판정 결과(A/B/판정 불가)를 출력한다.
 
-*(캡처 화면 삽입 예정)*
+![mode1](./docs/screenshots/mode1.png)
 
 ### 2. JSON 데이터 분석 (data.json)
 
 `data.json`에서 필터(5×5, 13×13, 25×25)와 패턴을 로드해 일괄 판정하고, 케이스별
 판정(Cross/X/UNDECIDED)과 `expected` 비교(PASS/FAIL)를 출력한다.
 
-*(캡처 화면 삽입 예정)*
+![mode1](./docs/screenshots/mode2.png)
 
 ### 3. 성능 분석
 
 크기별 MAC 연산 시간을 반복 측정해, 크기별 평균 연산 시간(ms)과 연산 횟수(N²) 표를
 출력한다.
 
-*(캡처 화면 삽입 예정)*
+![mode1](./docs/screenshots/mode2.png)
 
 ### 4. 결과 리포트
 
 #### 콘솔 출력 — 전체/통과/실패 요약
 
-*(캡처 화면 삽입 예정)*
+![mode1](./docs/screenshots/report.png)
 
 #### 실패 원인 분석
 
