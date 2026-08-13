@@ -8,3 +8,5 @@ def mac(pattern, filter):
             score += pattern[i][j] * filter[i][j]
 
     return score
+
+
