@@ -10,10 +10,10 @@ def run_mode2(data):
     count_pass = 0
     count_fail = 0
     for r in results:
-        print(f"key: {r['key']}, score_cross: {r['score_cross']}, score_x: {r['score_x']}, predicted: {r['predicted']}, {r['result']}")
         count_total += 1
         if r['result']:
             count_pass += 1
+            print(f"key: {r['key']}, score_cross: {r['score_cross']}, score_x: {r['score_x']}, predicted: {r['predicted']}, {r['result']}")
 
     count_fail = count_total - count_pass
 
