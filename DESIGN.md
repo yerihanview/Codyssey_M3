@@ -66,7 +66,8 @@ for row in range(N):
 "패턴이 필터 A와 B 중 어느 쪽에 더 가까운가"를 판정하는 것이 이 프로젝트 전체의 뼈대다.
 
 
-![mac.py.png](./docs/mac.py.png)
+![mac.py.png](./docs/desc/mac.py.png)
+
 ---
 
 ## 4. 모드 1 — 콘솔 입력 판정 (`mode1.py`)
@@ -84,11 +85,11 @@ for row in range(N):
 반환한다. 단순히 `score_a == score_b`로 비교하면 이런 오차 때문에 실제로는 같은 값인데도
 다르다고 오판정할 위험이 있다.
 
-![mode1.py.png](./docs/mode1.py.png)
+![mode1.py.png](./docs/desc/mode1.py.png)
 
-![mode1.read_grid.png](./docs/mode1.read_grid.png)
+![mode1.read_grid.png](./docs/desc/mode1.read_grid.png)
 
-![mode1.judge.png](./docs/mode1.judge.png)
+![mode1.judge.png](./docs/desc/mode1.judge.png)
 
 ---
 
@@ -108,17 +109,17 @@ for row in range(N):
 | `process_case(data, pattern_key, pattern_entry)` | 패턴 1개에 대해 필터 매핑 → 크기 검증 → MAC 연산 → 판정 → expected 비교까지 전체를 처리한다. |
 | `run_mode2()` | 전체 패턴을 순회하며 `process_case()`를 호출하고, PASS/FAIL 통계와 실패 사유를 출력한다. |
 
-![mode2.py.png](./docs/mode2.py.png)
+![mode2.py.png](./docs/desc/mode2.py.png)
 
-![mode2.normalize_label.png](./docs/mode2.normalize_label.png)
+![mode2.normalize_label.png](./docs/desc/mode2.normalize_label.png)
 
-![mode2.get_size_from_key.png](./docs/mode2.get_size_from_key.png)
+![mode2.get_size_from_key.png](./docs/desc/mode2.get_size_from_key.png)
 
-![mode2.get_filter_set.png](./docs/mode2.get_filter_set.png)
+![mode2.get_filter_set.png](./docs/desc/mode2.get_filter_set.png)
 
-![mode2.judge_labelpng](./docs/mode2.judge_label.png)
+![mode2.judge_labelpng](./docs/desc/mode2.judge_label.png)
 
-![mode2.process_case.png](./docs/mode2.process_case.png)
+![mode2.process_case.png](./docs/desc/mode2.process_case.png)
 
 
 ### 5.2 라벨 정규화 (`LABEL_MAP`)
@@ -157,9 +158,9 @@ LABEL_MAP = {"cross": "Cross", "+": "Cross", "x": "X"}
 필터의 **값**이 아니라 필터의 **크기**에만 의존하므로, 더미 데이터를 1.0으로
 채워도 결과 해석에는 문제가 없다.
 
-![mode3.py.png](./docs/mode3.py.png)
+![mode3.py.png](./docs/desc/mode3.py.png)
 
-![mode3.measure_mac_time.png](./docs/mode3.measure_mac_time.png)
+![mode3.measure_mac_time.png](./docs/desc/mode3.measure_mac_time.png)
 
 
 ---
@@ -177,7 +178,7 @@ from mode3 import run_performance_analysis
 결정하는 라우터 역할만 한다.
 
 
-![main.py.png](./docs/main.py.png)
+![main.py.png](./docs/desc/main.py.png)
 
 ---
 
