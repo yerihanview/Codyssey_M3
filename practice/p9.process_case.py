@@ -20,13 +20,19 @@ def process_case(case_key, case_data, filters_dict):
     score_cross = mac(case_data, filter_set['cross'])
     score_x = mac(case_data, filter_set['x'])
 
-    decision = judge(score_cross, score_x)
-    if decision != "UNDECIDED":
-        if decision == "A"
-            decision = "Cross"
-        else:
-            decision = "X"
+    predicted = judge_label(score_cross, score_x)
+    expected = normalize_label(case_data["expected"])
 
+    is_pass = (predicted == expected)
+
+    return {
+        "key": case_key,
+        "predicted": predicted,
+        "expected": expected,
+        "result": is_pass,
+        "score_cross": score_cross,
+        "score_x": score_x,
+    }
     
 
 
