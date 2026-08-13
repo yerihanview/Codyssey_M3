@@ -4,16 +4,19 @@ def read_grid(n):
     print(f"{n}x{n}행렬을 입력하세요. 각 행마다 {n}개의 숫자를 공백을 두고 입력하세요.")
     for i in range(n):
         while True:
-            row = input().split()
-            if len(row) != n:
+            tokens = input().split()
+            if len(tokens) != n:
                 print(f"숫자 개수가 틀립니다. 각 열마다 {n}개의 수를 입력하세요.")
                 continue
-            for token in row:
+
+            row = []
+            for t in tokens:
                 try:
-                    float(token)
+                    float(t)
+                    row.append(t)
                 except (ValueError):
-                    print(f"{token}을 입력하셨어요. 숫자를 입력하세요.")
-                    continue
+                    print(f"{t}을 입력하셨어요. 숫자를 입력하세요.")
+                    break
                 
             grid.append(row)
 
