@@ -12,11 +12,11 @@ def run_mode2(data):
     for r in results:
         print(f"key: {r['key']}, score_cross: {r['score_cross']}, score_x: {r['score_x']}, predicted: {r['predicted']}, {r['result']}")
         count_total += 1
-        if r['pass']:
+        if r['result']:
             count_pass += 1
 
     count_fail = count_total - count_pass
 
     for r in results:
-        if not r['pass']:
+        if not r['result']:
             print(f"key: {r['key']}, reason: {r['reason']}")
