@@ -5,7 +5,7 @@ def process_case(case_key, case_data, filters_dict):
     if filter_set is None:
         return {
             "key": case_key,
-            "pass": False,
+            "result": False,
             "reason": "요구하는 크기의 필터가 없습니다."
         }
 
@@ -13,7 +13,7 @@ def process_case(case_key, case_data, filters_dict):
     if int_case_size != n_size:
         return {
             "key": case_key,
-            "pass": False,
+            "result": False,
             "reason": f"필터의 크기{n_size}와 케이스의 크기 {int_case_size}가 다릅니다."
         }
 
@@ -29,7 +29,7 @@ def process_case(case_key, case_data, filters_dict):
         "key": case_key,
         "predicted": predicted,
         "expected": expected,
-        "pass": is_pass,
+        "result": is_pass,
         "score_cross": score_cross,
         "score_x": score_x,
     }
