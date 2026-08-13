@@ -65,6 +65,7 @@ def judge_label(score_cross, score_x, epsilon=EPSILON):
 
     # 두 값의 차이
     diff = abs(score_cross - score_x)
+    print(f"diff: {diff}")
 
     # epsilon 검사: 부동소수점 계산 과정의 미세한 차이라면, 판정불가 
     if diff < epsilon:
@@ -122,16 +123,21 @@ def process_case(data, pattern_key, pattern_entry):
     # Cross/X 필터 각각과 MAC 연산
     score_cross = mac(pattern_data, cross_filter)
     score_x = mac(pattern_data, x_filter)
-    
+    print(f"Score_Cross: {score_cross}")
+    print(f"Score_x: {score_x}")
 
     # 두 점수 비교해서 판정 (Cross/X/UNDECIDED)
     predicted = judge_label(score_cross, score_x)
 
     # expected 값의 정규화
-    expected = normalize_label(pattern_entry(["expected"]))
+    expected = normalize_label(pattern_entry["expected"])
 
     # PASS/FAIL 결정
     is_pass = (predicted == expected)
+    if is_pass:
+        print("Pass")
+    else:
+        print("Fail")
 
     # 결과 딕셔너리 반환
     return {
@@ -158,6 +164,8 @@ def run_mode2():
     # 읽어들인 패턴과 필터로 MAC연산하기
     results = []
     for pattern_key, pattern_entry in data["patterns"].items(): # items()는 딕셔너리에 저장된 모든 Key와 Value 쌍을 튜플(Tuple) 형태로 한번에 묶어서 반환
+        print("\n--------------------------------")
+        print(f"패턴 검사: {pattern_key}")
         result = process_case(data, pattern_key, pattern_entry) # 하나의 패턴에 대해 2개 필터를 매핑한 결과를 딕셔너리로 반환
         results.append(result)  # 딕셔너리를 리스트에 저장
 
@@ -166,9 +174,14 @@ def run_mode2():
     pass_count = sum(r["pass"] for r in results)
     fail_count = total - pass_count
 
+    print("\n--------------------------------")
+    print(f"Total: {total:<3}Pass: {pass_count:<3}Fail: {fail_count:<3}")
+    print("--------------------------------")
+
     # 실패 케이스 목록 출력
     if fail_count > 0:
-        print("실패 케이스")
+        print("\n실패 케이스")
+        print("-----------------------------------------------------")
         for r in results:
             if not r["pass"]: # pass == False
                 # reason 필드가 채워져 있으면, reason을 출력
@@ -184,6 +197,6 @@ def run_mode2():
                 else:
                     output = reason
                     
-                print(f"  - {r['key']}: {output}")
+                print(f"  - {r['key']:<9}: {output}")
 
 

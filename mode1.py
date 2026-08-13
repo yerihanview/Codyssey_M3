@@ -12,7 +12,7 @@ def read_grid(name, n=3):
     형식이 틀리면 안내 메시지를 출력하고, 그 줄을 다시 입력 받는다.
     '''
 
-    print(f"{name} ({n}줄 입력, 각 줄에 {n}개의 숫자를 공백으로 구분해 입력하세요.)")
+    print(f"{name} ({n} x {n} 행렬 입력, 한 줄에 {n}개의 숫자를 공백으로 구분해 입력하세요.)")
     grid = []
 
     for row_idx in range(n): # n개의 줄 입력을 받는다.
@@ -23,7 +23,7 @@ def read_grid(name, n=3):
 
             # 검증: 토큰의 수가 n과 일치하는 지
             if len(tokens) != n:
-                print("입력 형식 오류: 각 줄에 {n}개의 숫자를 공백으로 구분해 입력하세요.")
+                print(f"입력 형식 오류: 각 줄에 {n}개의 숫자를 공백으로 구분해 입력하세요.")
                 continue
 
             # 검증: 숫자(실수)가 아닌 문자/특수기호가 섞여 있는 지
@@ -66,21 +66,21 @@ def run_mode1():
     MAC 연산으로 점수를 계산하고 판정 결과를 출력한다
     """
 
-    print("\n#-----------------------")
-    print("# [1] 필터 입력")
-    print("#-----------------------")
+    print("\n-----------------------")
+    print(" 필터 입력")
+    print("-----------------------")
     filter_a = read_grid("필터 A", n=3)
     filter_b = read_grid("필터 B", n=3)
 
-    print("\n#-----------------------")
-    print("# [2] 패턴 입력")
-    print("#-----------------------")
+    print("\n-----------------------")
+    print(" 패턴 입력")
+    print("-----------------------")
     pattern = read_grid("패턴", n=3)
 
 
-    print("\n#-----------------------")
-    print("# [3] MAC 결과")
-    print("#-----------------------")
+    print("\n-----------------------")
+    print(" MAC 결과")
+    print("-----------------------")
     score_a = mac(pattern, filter_a)
     score_b = mac(pattern, filter_b)
     result = judge(score_a, score_b)

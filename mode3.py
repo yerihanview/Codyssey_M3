@@ -2,7 +2,9 @@
 # 성능 분석 (모드 3)
 # =========================================================
 
+import time
 from mac import mac
+
 
 def measure_mac_time(n, repeat=10):
     """
@@ -41,13 +43,13 @@ def run_performance_analysis(sizes=None, repeat=10):
     if sizes is None:
         sizes = [3, 5, 13, 25]
  
-    print("\n#----------------------------------------")
-    print("# 성능 분석")
-    print("#----------------------------------------")
-    print(f"{'크기(N×N)':<12}{'평균 시간(ms)':<16}{'연산 횟수(N²)':<12}")
+    print("\n 성능 분석")
+    print("--------------------------------------------")
+    print(f"{'크기(N×N)':<10}{'평균 시간(ms)':<12}{'연산 횟수(N²)':<10}")
+    print("--------------------------------------------")
  
     for n in sizes:
-        avg_ms = measure_mac_time(n, repeat=repeat)
+        avg_ms = measure_mac_time(n, repeat)
         op_count = n * n
         label = f"{n}×{n}"
       
