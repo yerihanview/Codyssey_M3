@@ -29,7 +29,7 @@ def process_case(case_key, case_data, filters_dict):
         "key": case_key,
         "predicted": predicted,
         "expected": expected,
-        "result": is_pass,
+        "pass": is_pass,
         "score_cross": score_cross,
         "score_x": score_x,
     }
