@@ -1,4 +1,4 @@
-
+import time
 
 def mac(pattern, pattern_filter):
     """
@@ -15,3 +15,15 @@ def mac(pattern, pattern_filter):
             score += pattern[row][col] * pattern_filter[row][col]
 
     return score
+
+def measure_mac_time(pattern, filter_, repeat=10):
+    """
+    mac() 연산을 repeat번 반복 실행해 평균 소요 시간(ms)을 반환한다.
+    """
+    elapsed_times = []
+    for _ in range(repeat):
+        start = time.perf_counter()
+        mac(pattern, filter_)
+        end = time.perf_counter()
+        elapsed_times.append((end - start) * 1000)
+    return sum(elapsed_times) / repeat
