@@ -81,10 +81,15 @@ def run_mode1():
     print("\n-----------------------")
     print(" MAC 결과")
     print("-----------------------")
+    # 판정에 쓸 실제 점수 계산
     score_a = mac(pattern, filter_a)
     score_b = mac(pattern, filter_b)
     result = judge(score_a, score_b)
 
-    print(f"필터 A 점수: {score_a}")
-    print(f"필터 B 점수: {score_b}")
+    # 성능 참고용 시간 측정 (10회 반복 평균 시간)
+    time_a = measure_mac_time(pattern, filter_a)
+    time_b = measure_mac_time(pattern, filter_b)
+
+    print(f"필터 A 점수: {score_a} (평균 소요 시간: {time_a:.6f} ms)")
+    print(f"필터 B 점수: {score_b} (평균 소요 시간: {time_b:.6f} ms)")
     print(f"판정: 필터 {result}")
