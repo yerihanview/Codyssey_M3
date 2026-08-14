@@ -43,14 +43,14 @@ NPU 같은 전용 하드웨어가 필요해진다.
 `data.json`에서 필터(5×5, 13×13, 25×25)와 패턴을 로드해 일괄 판정하고, 케이스별
 판정(Cross/X/UNDECIDED)과 `expected` 비교(PASS/FAIL)를 출력한다.
 
-![mode1](./docs/screenshots/mode2.png)
+![mode2](./docs/screenshots/mode2.png)
 
 ### 3. 성능 분석
 
 크기별 MAC 연산 시간을 반복 측정해, 크기별 평균 연산 시간(ms)과 연산 횟수(N²) 표를
 출력한다.
 
-![mode1](./docs/screenshots/mode2.png)
+![mode3](./docs/screenshots/mode3.png)
 
 ### 4. 결과 리포트
 
