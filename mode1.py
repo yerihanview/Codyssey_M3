@@ -2,6 +2,7 @@
 # 콘솔 입력 + 판정 (모드 1)
 # --------------------------------------------------
 
+from mac import measure_mac_time
 from mac import mac
 EPSILON = 1e-9
 
